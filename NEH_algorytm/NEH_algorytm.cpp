@@ -1,20 +1,55 @@
-﻿// NEH_algorytm.cpp : Ten plik zawiera funkcję „main”. W nim rozpoczyna się i kończy wykonywanie programu.
-//
+﻿#include <iostream>
+#include <vector>
+#include <string>
+#include "Data.h"
 
-#include <iostream>
+
+using namespace std;
+
+vector<string> getFileName()
+{
+    vector<string> tmpVec;
+
+    string name = "data.";
+    string exension = ".txt";
+    string tmp, tmpName;
+
+    for (int i = 0; i < 121; i++)
+    {
+        if (i < 10)
+        {
+            tmp = "00" + to_string(i);
+            tmpName = name + tmp + exension;
+            tmpVec.push_back(tmpName);
+        }
+        else if (i < 100)
+        {
+            tmp = "0" + to_string(i);
+            tmpName = name + tmp + exension;
+            tmpVec.push_back(tmpName);
+        }
+        else
+        {
+            tmp = to_string(i);
+            tmpName = name + tmp + exension;
+            tmpVec.push_back(tmpName);
+        }
+
+    }
+    return tmpVec;
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    vector<string> FileNames = getFileName();
+    vector<Data> dataTab;
+
+    for (auto x : FileNames)
+    {
+        Data tmp = Data(x);
+        dataTab.push_back(tmp);
+    }
+
+    //cout << "\n\n";
+    dataTab.at(0).printListOfTasks();
 }
-
-// Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
-// Debugowanie programu: F5 lub menu Debugowanie > Rozpocznij debugowanie
-
-// Porady dotyczące rozpoczynania pracy:
-//   1. Użyj okna Eksploratora rozwiązań, aby dodać pliki i zarządzać nimi
-//   2. Użyj okna programu Team Explorer, aby nawiązać połączenie z kontrolą źródła
-//   3. Użyj okna Dane wyjściowe, aby sprawdzić dane wyjściowe kompilacji i inne komunikaty
-//   4. Użyj okna Lista błędów, aby zobaczyć błędy
-//   5. Wybierz pozycję Projekt > Dodaj nowy element, aby utworzyć nowe pliki kodu, lub wybierz pozycję Projekt > Dodaj istniejący element, aby dodać istniejące pliku kodu do projektu
-//   6. Aby w przyszłości ponownie otworzyć ten projekt, przejdź do pozycji Plik > Otwórz > Projekt i wybierz plik sln

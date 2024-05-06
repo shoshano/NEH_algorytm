@@ -12,7 +12,24 @@ void Data::getData()
 	if (file.is_open()) 
 	{
 		getline(file, line);
-		//NumberOfData = stoi(line);
+		std::string delimiter = " ";
+
+		int pos = line.find(delimiter);
+		caseCount = line.substr(0, pos);
+		machineCount = line.substr(pos, line.length());
+		///Do testów
+		//std::cout << caseCount << " " << machineCount << std::endl;
+
+		///Wersja dla wiêcej ni¿ 2
+		//std::string caseCount, machineCount;
+		//while ((pos = line.find(delimiter)) != std::string::npos) {
+		//	caseCount = line.substr(0, pos);
+		//	machineCount = line.substr(pos, line.length());
+		//	std::cout << caseCount << " " << machineCount << std::endl;
+		//	line.erase(0, pos + delimiter.length());
+		//}
+		 
+		NumberOfData = stoi(line);
 		for (int i = 0; i < NumberOfData; i++) 
 		{
 			getline(file, line);
@@ -21,10 +38,19 @@ void Data::getData()
 			{
 				tmp.push_back(chunk);
 			}
-			//Task d = Task(i + 1, stoi(tmp.at(0)), stoi(tmp.at(1)), stoi(tmp.at(2)));
 
-			//list.push_back(d);
-			//tmp.erase(tmp.begin(), tmp.end());
+
+			std::vector<int> machineTimes;
+			for (auto x : tmp)
+			{
+				machineTimes.push_back(stoi(x));
+			}
+
+			Task d = Task(i + 1, machineTimes);
+
+			ListOfTasks.push_back(d);
+			tmp.erase(tmp.begin(), tmp.end());
+			machineTimes.erase(machineTimes.begin(), machineTimes.end());
 		}
 	}
 	else 
@@ -51,6 +77,7 @@ std::string Data::getFilePath()
 
 void Data::printListOfTasks()
 {
+	std::cout << caseCount << " " << machineCount << "\n";
 	for (auto x : ListOfTasks)
 	{
 		x.printTask();

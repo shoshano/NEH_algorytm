@@ -12,6 +12,8 @@ private:
 	int NumberOfData;
 	std::vector<Task> ListOfTasks;
 	std::string FilePath;
+	std::string caseCount;
+	std::string machineCount;
 
 public:
 	void getData(); //pobieranie danych z pliku
