@@ -4,6 +4,12 @@ Task::Task(int Id, std::vector<int> MT)
 {
 	this->Id = Id;
 	this->MachineTime = MT;
+	this->Weight = 0;
+
+	for (auto x : MachineTime)
+	{
+		Weight += x;
+	}
 }
 
 int Task::getId()

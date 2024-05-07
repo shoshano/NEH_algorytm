@@ -129,10 +129,12 @@
   <ItemGroup>
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="NEH_algorytm.cpp" />
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="Task.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data.h" />
+    <ClInclude Include="Result.h" />
     <ClInclude Include="Task.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

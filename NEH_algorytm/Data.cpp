@@ -62,6 +62,7 @@ void Data::getData()
 Data::Data(std::string fp)
 {
 	this->FilePath = fp;
+	this->Cmax = 0;
 	getData();
 }
 
@@ -75,6 +76,41 @@ std::string Data::getFilePath()
 	return this->FilePath;
 }
 
+void Data::calculate_Cmax()
+{
+	std::vector<std::vector<int>> times;
+
+	times.resize(stoi(caseCount));
+	for (int i = 0; i < stoi(caseCount); i++)
+	{
+		times.at(i).resize(stoi(machineCount));
+
+		for (int j = 0; j < stoi(machineCount); j++)
+		{
+			int p = ListOfTasks.at(i).getMachineTime().at(j);
+
+			if (j > 0 && i > 0)
+			{
+				times[i][j] = std::max(times[i - 1][j], times[i][j - 1]) + p;
+			}
+			else if (j == 0 && i == 0)
+			{
+				times[i][j] = std::max(0, 0) + p;
+			}
+			else if (j == 0 && i > 0)
+			{
+				times[i][j] = std::max(times[i - 1][j], 0) + p;
+			}
+			else if (j > 0 && i == 0)
+			{
+				times[i][j] = std::max(times[i][j - 1], 0) + p;
+			}
+		}
+	}
+
+	Cmax = times[stoi(caseCount) - 1][stoi(machineCount) - 1];
+}
+
 void Data::printListOfTasks()
 {
 	std::cout << caseCount << " " << machineCount << "\n";
@@ -82,4 +118,7 @@ void Data::printListOfTasks()
 	{
 		x.printTask();
 	}
+
+	calculate_Cmax();
+	std::cout << "\nCmax = " << Cmax;
 }

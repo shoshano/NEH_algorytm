@@ -5,11 +5,13 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 class Data
 {
 private:
 	int NumberOfData;
+	int Cmax;
 	std::vector<Task> ListOfTasks;
 	std::string FilePath;
 	std::string caseCount;
@@ -22,7 +24,7 @@ public:
 
 	std::vector<Task> getListOfTasks();
 	std::string getFilePath();
-
+	void calculate_Cmax();
 	void printListOfTasks();
 
 };
