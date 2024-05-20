@@ -10,7 +10,9 @@ private:
 	int Cmax;
 
 public:
-	Result(std::vector<Task> o);
+	Result(std::vector<Task> o, int Cmax);
+
+	void printResult();
 
 };
 

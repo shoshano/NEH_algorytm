@@ -31,3 +31,8 @@ void Task::printTask()
 	}
 	std::cout << "\n";
 }
+
+int Task::getWeight()
+{
+	return this->Weight;
+}

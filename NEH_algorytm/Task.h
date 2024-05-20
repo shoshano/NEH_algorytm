@@ -7,12 +7,14 @@ class Task
 private:
 	int Id;
 	std::vector<int> MachineTime;
-	int Weight;
+	
 public:
+	int Weight;
 	Task(int Id, std::vector<int> MT);
 	int getId();
 	std::vector<int> getMachineTime();
 	void printTask();
+	int getWeight();
 	
 };
 

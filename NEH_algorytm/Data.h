@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "Task.h"
+#include "Result.h"
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -24,8 +25,10 @@ public:
 
 	std::vector<Task> getListOfTasks();
 	std::string getFilePath();
-	void calculate_Cmax();
+	int calculate_Cmax(std::vector<Task> vec);
 	void printListOfTasks();
+	Result algorithm();
+	
 
 };
 

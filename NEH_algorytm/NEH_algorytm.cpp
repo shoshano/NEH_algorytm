@@ -51,5 +51,8 @@ int main()
     }
 
     //cout << "\n\n";
-    dataTab.at(2).printListOfTasks();
+    dataTab.at(1).printListOfTasks();
+    cout << "\n\n";
+    Result res = dataTab.at(1).algorithm();
+    res.printResult();
 }

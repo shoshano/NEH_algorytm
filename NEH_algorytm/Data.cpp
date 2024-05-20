@@ -76,18 +76,20 @@ std::string Data::getFilePath()
 	return this->FilePath;
 }
 
-void Data::calculate_Cmax()
+int Data::calculate_Cmax(std::vector<Task> vec)
 {
 	std::vector<std::vector<int>> times;
+	int result_Cmax = 0;
+	int caseCount = vec.size();
 
-	times.resize(stoi(caseCount));
-	for (int i = 0; i < stoi(caseCount); i++)
+	times.resize(caseCount);
+	for (int i = 0; i < caseCount; i++)
 	{
 		times.at(i).resize(stoi(machineCount));
 
 		for (int j = 0; j < stoi(machineCount); j++)
 		{
-			int p = ListOfTasks.at(i).getMachineTime().at(j);
+			int p = vec.at(i).getMachineTime().at(j);
 
 			if (j > 0 && i > 0)
 			{
@@ -108,7 +110,52 @@ void Data::calculate_Cmax()
 		}
 	}
 
-	Cmax = times[stoi(caseCount) - 1][stoi(machineCount) - 1];
+	result_Cmax = times[caseCount - 1][stoi(machineCount) - 1];
+
+	return result_Cmax;
+}
+
+Result Data::algorithm() {
+	std::vector<Task> listCopy = ListOfTasks;
+	sort(listCopy.begin(), listCopy.end(), [](const Task left, const Task right) {
+		return left.Weight < right.Weight;
+		});
+	std::vector<Task> res;
+	std::vector<Task> bestOrder;
+	int old_Cmax = 10000000;
+	int size = listCopy.size();
+
+	for (int i = 0; i < size; ++i)
+	{
+		Task tmp = listCopy.at(0);
+		listCopy.erase(listCopy.begin());
+
+		res.push_back(tmp);
+
+		if (res.size() > 1)
+		{
+			old_Cmax = calculate_Cmax(res);
+			bestOrder = res;
+
+			for (int j = res.size()-1; j > 0; j--)
+			{				
+				std::swap(res.at(j), res.at(j - 1));
+
+				int new_Cmax = calculate_Cmax(res);
+
+				if (old_Cmax > new_Cmax) 
+				{
+					old_Cmax = new_Cmax;
+					bestOrder = res;
+				}
+
+			}
+			res = bestOrder;
+		}
+		
+	}
+	Result result = Result(bestOrder, old_Cmax);
+	return result;	
 }
 
 void Data::printListOfTasks()
@@ -119,6 +166,6 @@ void Data::printListOfTasks()
 		x.printTask();
 	}
 
-	calculate_Cmax();
+	Cmax = calculate_Cmax(ListOfTasks);
 	std::cout << "\nCmax = " << Cmax;
 }
