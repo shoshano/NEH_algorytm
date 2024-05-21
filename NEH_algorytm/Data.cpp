@@ -118,8 +118,12 @@ int Data::calculate_Cmax(std::vector<Task> vec)
 Result Data::algorithm() {
 	std::vector<Task> listCopy = ListOfTasks;
 	sort(listCopy.begin(), listCopy.end(), [](const Task left, const Task right) {
-		return left.Weight < right.Weight;
+		return left.Weight > right.Weight;
 		});
+	/*for (auto x : listCopy) {
+		x.printTask();
+	}*/
+	std::cout << "\n";
 	std::vector<Task> res;
 	std::vector<Task> bestOrder;
 	int old_Cmax = 10000000;
@@ -143,7 +147,7 @@ Result Data::algorithm() {
 
 				int new_Cmax = calculate_Cmax(res);
 
-				if (old_Cmax > new_Cmax) 
+				if (old_Cmax >= new_Cmax) 
 				{
 					old_Cmax = new_Cmax;
 					bestOrder = res;
@@ -151,6 +155,10 @@ Result Data::algorithm() {
 
 			}
 			res = bestOrder;
+			/*for (auto x : bestOrder) {
+				x.printTask();
+			}
+			std::cout << "\n";*/
 		}
 		
 	}

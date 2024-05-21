@@ -50,9 +50,13 @@ int main()
         dataTab.push_back(tmp);
     }
 
-    //cout << "\n\n";
-    dataTab.at(1).printListOfTasks();
-    cout << "\n\n";
-    Result res = dataTab.at(1).algorithm();
-    res.printResult();
+    for (int x = 0; x < 121; x++) {
+        //cout << "\n\n";
+        //cout << x << "\n";
+        Result res = dataTab.at(x).algorithm();
+        //cout << "\n\n";
+        //res.printResult();
+        //cout << "\n\n";
+    }
+    cout << "koniec";
 }

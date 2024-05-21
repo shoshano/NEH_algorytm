@@ -24,12 +24,7 @@ std::vector<int> Task::getMachineTime()
 
 void Task::printTask()
 {
-	//std::cout << Id << "\n";
-	for (auto x : MachineTime)
-	{
-		std::cout << x << " ";
-	}
-	std::cout << "\n";
+	std::cout << Id << "  ";
 }
 
 int Task::getWeight()
