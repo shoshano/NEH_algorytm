@@ -15,6 +15,7 @@ public:
 	std::vector<int> getMachineTime();
 	void printTask();
 	int getWeight();
+
 	
 };
 

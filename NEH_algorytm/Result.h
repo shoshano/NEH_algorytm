@@ -11,7 +11,7 @@ private:
 
 public:
 	Result(std::vector<Task> o, int Cmax);
-
+	int getCmax();
 	void printResult();
 
 };

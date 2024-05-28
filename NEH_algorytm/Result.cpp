@@ -6,6 +6,11 @@ Result::Result(std::vector<Task> o, int Cmax)
 	this->Cmax = Cmax;
 }
 
+int Result::getCmax()
+{
+	return this->Cmax;
+}
+
 void Result::printResult()
 {
 	for (auto x : Order)

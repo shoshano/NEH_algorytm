@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include "Data.h"
+#include <chrono>
 
 
 using namespace std;
@@ -50,13 +51,49 @@ int main()
         dataTab.push_back(tmp);
     }
 
-    for (int x = 0; x < 121; x++) {
-        //cout << "\n\n";
-        //cout << x << "\n";
-        Result res = dataTab.at(x).algorithm();
-        //cout << "\n\n";
-        //res.printResult();
-        //cout << "\n\n";
+    //int dataSet = 15;
+    //Result res = dataTab.at(dataSet).algorithm();
+    //Result quick_res = dataTab.at(dataSet).algorithm();
+    //res.printResult();
+    //cout << "\n";
+    //quick_res.printResult();
+    chrono::high_resolution_clock::time_point start;
+    chrono::high_resolution_clock::time_point stop;
+    int launch = 0;
+    int limit = 121;
+    //start = chrono::high_resolution_clock::now();
+    //for (int x = launch; x < limit; x++)
+    //{
+    //    //Result res = dataTab.at(x).algorithm();
+    //    cout << x;
+    //    Result quick_res = dataTab.at(x).NEH_Taillard();
+    //    
+    ////    //if (res.getCmax() != quick_res.getCmax()) 
+    ////    //{
+    ////    //    cout << "<>" << to_string(x) << endl;
+    ////    //}
+    //}
+    //stop = chrono::high_resolution_clock::now();
+    //
+    //chrono::duration<double> time_span1 = chrono::duration_cast<chrono::duration<double>>(stop - start);
+    //cout << "Czas NEH_Taillard: " << time_span1.count() << "s\n\n";
+
+    start = chrono::high_resolution_clock::now();
+    for (int x = launch; x < limit; x++)
+    {
+        cout << x<<endl;
+        //Result res = dataTab.at(x).algorithm();
+        Result quick_res = dataTab.at(x).NEH_Taillard();
+        cout << quick_res.getCmax() << endl<<endl;
+        
+    //    //if (res.getCmax() != quick_res.getCmax()) 
+    //    //{
+    //    //    cout << "<>" << to_string(x) << endl;
+    //    //}
     }
-    cout << "koniec";
+    stop = chrono::high_resolution_clock::now();
+
+    chrono::duration<double> time_span2 = chrono::duration_cast<chrono::duration<double>>(stop - start);
+    cout << "Czas NEH_2: " << time_span2.count() << "s\n\n";
+    //cout << "koniec";
 }

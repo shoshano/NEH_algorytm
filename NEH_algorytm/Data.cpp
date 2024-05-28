@@ -166,6 +166,110 @@ Result Data::algorithm() {
 	return result;	
 }
 
+int Data::getMachineCount()
+{
+	return stoi(machineCount);
+}
+
+Result Data::NEH_Taillard() {
+	std::vector<Task>& tasks = ListOfTasks;
+		int numMachines = getMachineCount();
+
+	sort(tasks.begin(), tasks.end(), [](const Task left, const Task right) {
+		return left.Weight > right.Weight;
+		});
+
+	std::vector<Task> partialSequence;
+	partialSequence.push_back(tasks[0]);
+
+	for (size_t i = 1; i < tasks.size(); ++i) {
+		std::vector<Task> bestSequence;
+		int bestMakespan = std::numeric_limits<int>::max();
+		std::vector<int> bestC(numMachines, 0);
+
+		for (size_t j = 0; j <= partialSequence.size(); ++j) {
+			std::vector<Task> tempSequence = partialSequence;
+			tempSequence.insert(tempSequence.begin() + j, tasks[i]);
+			std::vector<int> tempC(numMachines, 0);
+
+			for (size_t k = 0; k < tempSequence.size(); ++k) {
+				for (int m = 0; m < numMachines; ++m) {
+					if (k == 0) {
+						tempC[m] = (m == 0) ? tempSequence[k].getMachineTime()[m] : tempC[m - 1] + tempSequence[k].getMachineTime()[m];
+					}
+					else {
+						tempC[m] = std::max(tempC[m], tempC[m == 0 ? 0 : m - 1]) + tempSequence[k].getMachineTime()[m];
+					}
+				}
+			}
+
+			int currentMakespan = tempC[numMachines - 1];
+
+			if (currentMakespan < bestMakespan) {
+				bestMakespan = currentMakespan;
+				bestSequence = tempSequence;
+				bestC = tempC;
+			}
+		}
+		partialSequence = bestSequence;
+	}
+	int Cmax = calculate_Cmax(partialSequence);
+	Result res = Result(partialSequence, Cmax);
+	return res;
+}
+
+int Data::calculatePartialMakespan(const std::vector<Task>& schedule, int numMachines, std::vector<int>& endTimes, int position, Task task) {
+	std::vector<int> tempEndTimes(endTimes);
+	for (int m = 0; m < numMachines; ++m) {
+		if (position == 0) {
+			tempEndTimes[m] = (m == 0) ? task.getMachineTime()[m] : tempEndTimes[m - 1] + task.getMachineTime()[m];
+		}
+		else {
+			tempEndTimes[m] = std::max(endTimes[m], tempEndTimes[m == 0 ? 0 : m - 1]) + task.getMachineTime()[m];
+		}
+	}
+	return tempEndTimes[numMachines - 1];
+}
+
+Result Data::NEH_Taillard2() {
+	std::vector<Task>& tasks = ListOfTasks;
+	int numMachines = getMachineCount();
+
+	std::sort(tasks.begin(), tasks.end(), [](const Task& a, const Task& b) {
+		return a.Weight > b.Weight;
+		});
+
+	std::vector<Task> partialSequence;
+	partialSequence.push_back(tasks[0]);
+
+	std::vector<int> endTimes(numMachines, 0);
+
+	for (size_t i = 1; i < tasks.size(); ++i) {
+		std::vector<Task> bestSequence;
+		int bestMakespan = std::numeric_limits<int>::max();
+
+		for (size_t j = 0; j <= partialSequence.size(); ++j) {
+			std::vector<Task> tempSequence = partialSequence;
+			tempSequence.insert(tempSequence.begin() + j, tasks[i]);
+			int currentMakespan = calculatePartialMakespan(tempSequence, numMachines, endTimes, j, tasks[i]);
+
+			if (currentMakespan < bestMakespan) {
+				bestMakespan = currentMakespan;
+				bestSequence = tempSequence;
+			}
+		}
+		partialSequence = bestSequence;
+
+		for (int m = 0; m < numMachines; ++m) {
+			endTimes[m] = std::max(endTimes[m], endTimes[m == 0 ? 0 : m - 1]) + partialSequence.back().getMachineTime()[m];
+		}
+	}
+
+	int Cmax = calculate_Cmax(partialSequence);
+	Result res = Result(partialSequence, Cmax);
+	return res;
+}
+
 void Data::printListOfTasks()
 {
 	std::cout << caseCount << " " << machineCount << "\n";
