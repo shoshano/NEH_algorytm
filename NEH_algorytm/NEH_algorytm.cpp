@@ -59,7 +59,7 @@ int main()
     //quick_res.printResult();
     chrono::high_resolution_clock::time_point start;
     chrono::high_resolution_clock::time_point stop;
-    int launch = 0;
+    int launch = 120;
     int limit = 121;
     //start = chrono::high_resolution_clock::now();
     //for (int x = launch; x < limit; x++)
